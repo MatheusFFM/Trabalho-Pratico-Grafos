@@ -10,5 +10,10 @@ public class Main {
         StudentFileReader sfr = new StudentFileReader(FILE_NAME_STUDENTS);
         AreaFileReader afr = new AreaFileReader(FILE_NAME_AREA);
         List<SearchArea> lsa = afr.returnAllContent();
+        // Uncomment for see the dissimilarity matrix
+/*        for(SearchArea sa : lsa){
+            System.out.println(sa + " - " + sa.getDissimilarity());
+        }
+*/
     }
 }

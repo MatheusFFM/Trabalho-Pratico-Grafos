@@ -10,8 +10,16 @@ public class SearchArea {
         dissimilarity = new HashMap<Integer, Integer>();
     }
 
-    public Integer createDissimilarity(int code, int value){
+    public Integer connectWith(int code, int value){
         return dissimilarity.put(code, value);
+    }
+
+    public boolean isConnected(int code){
+        return dissimilarity.containsKey(code);
+    }
+
+    public int getConnectionValue(int code){
+        return dissimilarity.get(code);
     }
 
     @Override
