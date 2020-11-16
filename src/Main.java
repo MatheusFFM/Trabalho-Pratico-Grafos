@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
     public static final String FILE_DIRECTORY_NAME = "bin/";
@@ -6,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         StudentFileReader sfr = new StudentFileReader(FILE_NAME);
-        String result = sfr.returnAllContent();
+        List<Student> result = sfr.returnAllContent();
         System.out.println(result);
     }
 }
