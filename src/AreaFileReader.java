@@ -2,28 +2,28 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentFileReader {
+public class AreaFileReader {
     private String fileName;
 
-    public StudentFileReader(String fileName){
+    public AreaFileReader(String fileName) {
         this.fileName = fileName;
     }
 
-    public List<Student> returnAllContent() throws IOException {
+    public List<SearchArea> returnAllContent() throws IOException {
         File file = new File(fileName);
         BufferedReader br = new BufferedReader(new FileReader(file));
-        List<Student> studentsList = new ArrayList<Student>();
+        List<SearchArea> saList = new ArrayList<SearchArea>();
         String aux;
 
         while ((aux = br.readLine()) != null){
-            String[] lineStudent = aux.split(" ");
-            int code = Integer.parseInt(lineStudent[0]);
-            int area = Integer.parseInt(lineStudent[1]);
-            studentsList.add(new Student(code, area));
+            System.out.println(aux);
+            SearchArea sa = new SearchArea(1);
+            saList.add(sa);
         }
 
-        return studentsList;
+        return saList;
     }
+
 
     public String getFileName() {
         return fileName;
