@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -6,6 +7,7 @@ class Graph {
     int V;
     int E;
     List<Edge> edge;
+    Edge[] mst;
 
     Graph(int v, int e) {
         V = v;
@@ -40,13 +42,13 @@ class Graph {
         }
     }
 
-    void KruskalMST() {
-        Edge[] result = new Edge[V];
+    Edge[] KruskalMST() {
+        Edge[] result = new Edge[V - 1];
 
         int e = 0;
 
         int i;
-        for (i = 0; i < V; ++i)
+        for (i = 0; i < result.length; ++i)
             result[i] = new Edge();
 
         Collections.sort(edge);
@@ -65,47 +67,107 @@ class Graph {
         while (e < V - 1) {
             Edge next_edge = edge.get(i++);
 
-            int x = find(subsets, next_edge.src);
-            int y = find(subsets, next_edge.dest);
+            int x = find(subsets, next_edge.getSrc());
+            int y = find(subsets, next_edge.getDest());
 
             if (x != y) {
                 result[e++] = next_edge;
                 union(subsets, x, y);
             }
         }
-
-        System.out.println("Following are the edges in "
-                + "the constructed MST");
-        int minimumCost = 0;
-        for (i = 0; i < e; ++i) {
-            System.out.println((result[i].src + 1) + " -- "
-                    + (result[i].dest + 1)
-                    + " == " + result[i].weight);
-            minimumCost += result[i].weight;
-        }
-        System.out.println("Minimum Cost Spanning Tree "
-                + minimumCost);
+        this.mst = result;
+        return result;
     }
 
-    static class Edge implements Comparable<Edge> {
-        int src, dest, weight;
+    public List<List<Integer>> getGroups(int k) {
+        Arrays.sort(mst, Collections.reverseOrder());
 
-        public Edge() {
+        Edge[] save = new Edge[k - 1];
+
+        for (int i = 0; i < k - 1; i++) {
+            save[i] = mst[i];
         }
 
-        public Edge(int src, int dest, int weight) {
-            this.src = src;
-            this.dest = dest;
-            this.weight = weight;
+        Edge[] newArray = Arrays.copyOfRange(mst, k - 1, mst.length);
+
+
+        List<List<Integer>> list = new ArrayList<>();
+
+        for (int i = 0; i < save.length; i++) {
+            int code1 = save[i].getSrc();
+            int code2 = save[i].getDest();
+
+            boolean found1 = false;
+            boolean found2 = false;
+
+            for (List<Integer> group : list) {
+                if (!found1)
+                    found1 = group.contains(code1);
+                if (!found2)
+                    found2 = group.contains(code2);
+            }
+
+            if (!found1) {
+                List<Integer> group1 = this.getVertexConnect(newArray, code1);
+                list.add(group1);
+            }
+            if (!found2) {
+                List<Integer> group2 = this.getVertexConnect(newArray, code2);
+                list.add(group2);
+            }
         }
 
-        @Override
-        public int compareTo(Edge compareEdge) {
-            return this.weight - compareEdge.weight;
-        }
+        return list;
     }
 
-    static class Subset {
-        int parent, rank;
+    private List<Integer> getVertexConnect(Edge[] newArray, int code1) {
+        List<Edge> clone = new ArrayList<>(Arrays.asList(newArray));
+        List<Integer> list = new ArrayList<>();
+        list.add(code1);
+
+        for (int j = 0; j < list.size(); j++) {
+            code1 = list.get(j);
+            List<Edge> src = new ArrayList<>();
+            List<Edge> dest = new ArrayList<>();
+            for (int i = 0; i < clone.size(); i++) {
+                Edge actualEdge = clone.get(i);
+                boolean isSrc = code1 == actualEdge.getSrc();
+                boolean isDest = code1 == actualEdge.getDest();
+                if (isSrc || isDest) {
+                    if (isSrc) {
+                        src.add(actualEdge);
+                        int aux = actualEdge.getDest();
+                        list.add(aux);
+                    } else {
+                        dest.add(actualEdge);
+                        int aux = actualEdge.getSrc();
+                        list.add(aux);
+                    }
+                    clone.remove(actualEdge);
+                    i = -1;
+                }
+            }
+            clone.removeAll(src);
+            clone.removeAll(dest);
+        }
+
+
+        return list;
+    }
+
+    public int getV() {
+        return V;
+    }
+
+    public int getE() {
+        return E;
+    }
+
+    public List<Edge> getEdge() {
+        return edge;
+    }
+
+    public Edge[] getMst() {
+        return mst;
     }
 }
