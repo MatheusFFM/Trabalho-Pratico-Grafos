@@ -10,7 +10,7 @@ public class AreaFileReader {
         this.fileName = fileName;
     }
 
-    public List<SearchArea> returnAllContent() throws IOException {
+    public List<SearchArea>     returnAllContent() throws IOException {
         File file = new File(fileName);
         BufferedReader br = new BufferedReader(new FileReader(file));
         List<SearchArea> saList = new ArrayList<SearchArea>();

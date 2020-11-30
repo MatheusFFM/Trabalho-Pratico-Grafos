@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -8,12 +9,15 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         StudentFileReader sfr = new StudentFileReader(FILE_NAME_STUDENTS);
+        List<Student> lst = sfr.returnAllContent();
         AreaFileReader afr = new AreaFileReader(FILE_NAME_AREA);
         List<SearchArea> lsa = afr.returnAllContent();
         // Uncomment for see the dissimilarity matrix
-/*        for(SearchArea sa : lsa){
-            System.out.println(sa + " - " + sa.getDissimilarity());
-        }
-*/
+//        for(SearchArea sa : lsa){
+//            System.out.println(sa + " - " + sa.getDissimilarity());
+//        }
+        List<StudentEdge> edges = Student.relation(lsa, lst);
+        Collections.sort(edges);
+        System.out.println(edges);
     }
 }
