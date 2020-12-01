@@ -19,9 +19,7 @@ class Graph {
 
     int find(Subset[] subsets, int i) {
         if (subsets[i].parent != i)
-            subsets[i].parent
-                    = find(subsets, subsets[i].parent);
-
+            subsets[i].parent = find(subsets, subsets[i].parent);
         return subsets[i].parent;
     }
 
@@ -92,6 +90,11 @@ class Graph {
 
 
         List<List<Integer>> list = new ArrayList<>();
+
+        if(k == 1) {
+            list.add(this.getVertexConnect(newArray, mst[0].getSrc()));
+            return list;
+        }
 
         for (int i = 0; i < save.length; i++) {
             int code1 = save[i].getSrc();
