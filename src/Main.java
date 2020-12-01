@@ -21,9 +21,8 @@ public class Main {
 
         int V = lst.size();
         int E = edges.size();
-        Graph graph = new Graph(V, E);
-
-        graph.edge = edges.stream().map(o -> new Edge(o.getStudent1().getCode() - 1, o.getStudent2().getCode() - 1, o.getWeight())).collect(Collectors.toList());
+        List<Edge> mapedEdges = edges.stream().map(o -> new Edge(o.getStudent1().getCode() - 1, o.getStudent2().getCode() - 1, o.getWeight())).collect(Collectors.toList());
+        Graph graph = new Graph(V, E,mapedEdges);
 
         graph.KruskalMST();
 
@@ -33,7 +32,7 @@ public class Main {
             quantProf = read.nextInt();
         }
 
-        System.out.println("Arestas da ACG = " + Arrays.toString(graph.getMst()));
+        System.out.println("Arestas da AGM = " + Arrays.toString(graph.getMst()));
         System.out.println("Resultado da divisão do grupo = " + graph.getGroups(quantProf).stream().map(a -> a.stream().map(b -> b + 1).collect(Collectors.toList())).collect(Collectors.toList()));
     }
 }

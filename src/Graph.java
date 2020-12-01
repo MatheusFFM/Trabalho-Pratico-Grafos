@@ -17,6 +17,12 @@ class Graph {
             edge.add(new Edge());
     }
 
+    Graph(int v, int e, List<Edge> mapedEdges) {
+        V = v;
+        E = e;
+        edge = mapedEdges;
+    }
+
     int find(Subset[] subsets, int i) {
         if (subsets[i].parent != i)
             subsets[i].parent = find(subsets, subsets[i].parent);
@@ -91,7 +97,7 @@ class Graph {
 
         List<List<Integer>> list = new ArrayList<>();
 
-        if(k == 1) {
+        if (k == 1) {
             list.add(this.getVertexConnect(newArray, mst[0].getSrc()));
             return list;
         }
@@ -168,6 +174,10 @@ class Graph {
 
     public List<Edge> getEdge() {
         return edge;
+    }
+
+    public void setEdge(List<Edge> edge) {
+        this.edge = edge;
     }
 
     public Edge[] getMst() {
